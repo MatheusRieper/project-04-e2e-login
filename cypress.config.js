@@ -6,4 +6,9 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
   },
+
+  env: {
+    ADMIN_USER: 'Admin',
+    ADMIN_PASS: 'admin123'
+  }
 });

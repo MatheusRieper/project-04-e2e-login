@@ -24,28 +24,27 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })   
 
-Cypress.Commands.add('start', () => {
-
+Cypress.Commands.add('openSite', () => {
 
     cy.viewport(1440, 990)
-    // Initializing Page
     cy.visit('https://opensource-demo.orangehrmlive.com/web/index.php/auth/login')
-    // Checking Page
     cy.url().should('include', '/login')
-
 })
 
 Cypress.Commands.add('login', (email, password) => {
 
-    cy.get('input[name="username"]')
+    cy.get('[name="username"]')
         .should('be.visible')
+        .clear()
         .type(email)
 
-    cy.get('input[name="password"]')
-    .should('be.visible')
-    .type(password)
+    cy.get('[name="password"]')
+        .should('be.visible')
+        .clear()
+        .type(password)
 
     cy.get('button[type="submit"]')
-    .click()
-
+        .should('be.visible')
+        .and('be.enabled')
+        .click()
 })

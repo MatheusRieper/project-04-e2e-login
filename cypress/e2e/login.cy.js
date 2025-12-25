@@ -1,53 +1,56 @@
 describe('Page Login', () => {
 
-  it('Successful', () => {
-
-    // Initializing Page
-    cy.start()
-    // Page Login
-    cy.login('Admin', 'admin123')
-    .should('be.visible')
-
-    cy.get('h6')
-    .should('contain.text', 'Dashboard')
-
-    // Checking Home Page
-    cy.url().should('include', '/index')
-  })
-
-
-  it('Invalid Username', () => {
-
-    // Initializing Page
-    cy.start()
-    // Page Login
-    cy.login('matheus', 'admin123')
-
-
-    cy.get('.oxd-alert-content-text')
-    .should('contain.text', 'Invalid credentials')
-
-    // Checking PAge Login
+  beforeEach(() => {
+    cy.openSite()
     cy.url().should('include', '/login')
   })
 
-  it('Invalid Password', () => {
+  // ------------ SuccessFull Login ------------
+  describe('Successfull Login', () => {
 
-    // Initializing Page
-    cy.start()
-    // Checking Login Page
-    cy.url().should('include', '/login')
+    it('should login with registered', () => {
 
+      cy.login(
+        Cypress.env('ADMIN_USER'),
+        Cypress.env('ADMIN_PASS')
+      )
+        .should('be.visible')
 
-    // login page
-    cy.login('Admin','123')
+      cy.get('h6')
+        .should('contain.text', 'Dashboard')
 
-    // Checking  Error Message
-    cy.get('.oxd-alert-content-text')
-    .should('contain.text', 'Invalid credentials') 
-
-    // Checking Login Page
-    cy.url().should('include', '/login')
-
+      cy.url().should('include', '/index')
+    })
   })
+
+  // ------------ Invalid Login ------------
+  describe('Invalid Login', () => {
+
+    it('should not login invalid  email', () => {
+
+      cy.login('Test',
+        Cypress.env('ADMIN_PASS')
+      )
+
+      cy.get('.oxd-alert-content-text')
+        .should('be.visible')
+        .and('contain.text', 'Invalid credentials')
+
+      cy.url().should('include', '/login')
+    })
+
+    it('should not login invalid password', () => {
+
+      cy.login(
+        Cypress.env('ADMIN_USER'),
+        '123')
+
+      cy.get('.oxd-alert-content-text')
+        .should('be.visible')
+        .and('contain.text', 'Invalid credentials')
+
+      cy.url().should('include', '/login')
+    })
+  })
+
 })

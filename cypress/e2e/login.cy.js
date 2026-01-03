@@ -24,11 +24,15 @@ describe('Page Login', () => {
   })
 
   // ------------ Invalid Login ------------
+  const INVALID_USER = 'test'
+  const INVALID_PASS = 'password'
+
   describe('Invalid Login', () => {
 
     it('should not login invalid  email', () => {
 
-      cy.login('Test',
+      cy.login(
+        INVALID_USER,
         Cypress.env('ADMIN_PASS')
       )
 
@@ -43,7 +47,8 @@ describe('Page Login', () => {
 
       cy.login(
         Cypress.env('ADMIN_USER'),
-        '123')
+        INVALID_PASS
+      )
 
       cy.get('.oxd-alert-content-text')
         .should('be.visible')

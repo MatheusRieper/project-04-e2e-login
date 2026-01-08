@@ -1,0 +1,28 @@
+{
+    "invalid": [
+        {
+            "scenario": "email invalido",
+            "email": "email@g.com",
+            "password": "admin123",
+            "message": "Invalid credentials"
+        },
+        {
+            "scenario": "password invalida",
+            "email": "Admin",
+            "password": "12345678",
+            "message": "Invalid credentials"
+        },
+        {
+            "scenario": "Campo email vazio",
+            "email": "",
+            "password": "12345678",
+            "message": "Required"
+        },
+        {
+            "scenario": "Campo password vazio",
+            "email": "Admin",
+            "password": "",
+            "message": "Required"
+        }
+    ]
+}

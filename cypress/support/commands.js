@@ -33,15 +33,19 @@ Cypress.Commands.add('openSite', () => {
 
 Cypress.Commands.add('login', (email, password) => {
 
-    cy.get('[name="username"]')
-        .should('be.visible')
-        .clear()
-        .type(email)
+    if (email) {
+        cy.get('[name="username"]').clear().type(email)
+    }
+    else {
+        cy.get('[name="username"]').clear()
+    }
 
-    cy.get('[name="password"]')
-        .should('be.visible')
-        .clear()
-        .type(password)
+    if (password) {
+        cy.get('[name="password"]').clear().type(password)
+    }
+    else {
+        cy.get('[name="password"]').clear()
+    }
 
     cy.get('button[type="submit"]')
         .should('be.visible')

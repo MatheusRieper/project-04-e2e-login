@@ -1,14 +1,14 @@
-describe('Page Login', () => {
+describe('Page Login', function () {
 
-  beforeEach(() => {
+  beforeEach(function () {
     cy.openSite()
     cy.url().should('include', '/login')
   })
 
   // ------------ SuccessFull Login ------------
-  describe('Successfull Login', () => {
+  describe('Successfull Login', function () {
 
-    it('should login with registered', () => {
+    it('should login with registered', function () {
 
       cy.login(
         Cypress.env('ADMIN_USER'),
@@ -24,37 +24,24 @@ describe('Page Login', () => {
   })
 
   // ------------ Invalid Login ------------
-  const INVALID_USER = 'test'
-  const INVALID_PASS = 'password'
 
-  describe('Invalid Login', () => {
+  describe('Invalid Login', function () {
 
-    it('should not login invalid  email', () => {
-
-      cy.login(
-        INVALID_USER,
-        Cypress.env('ADMIN_PASS')
-      )
-
-      cy.get('.oxd-alert-content-text')
-        .should('be.visible')
-        .and('contain.text', 'Invalid credentials')
-
-      cy.url().should('include', '/login')
+    beforeEach(function () {
+      cy.fixture('login').as('login')
     })
 
-    it('should not login invalid password', () => {
+    it('should not login with unregistered', function () {
 
-      cy.login(
-        Cypress.env('ADMIN_USER'),
-        INVALID_PASS
-      )
+      this.login.invalid.forEach((data) => {
 
-      cy.get('.oxd-alert-content-text')
-        .should('be.visible')
-        .and('contain.text', 'Invalid credentials')
+        cy.login(data.email, data.password)
 
-      cy.url().should('include', '/login')
+        cy.contains(data.message)
+          .should('be.visible')
+
+        cy.reload()
+      })
     })
   })
 
